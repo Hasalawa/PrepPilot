@@ -70,15 +70,18 @@ const AIInterviewQuestionKeywordExtractor = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { icon: <Layers className="mx-auto text-indigo-600" size={30} />, label: "Total Keywords", value: stats.totalKeywords },
-            { icon: <Zap className="mx-auto text-amber-500" size={30} />, label: "Technical Depth", value: `${stats.technicalDepth}%` },
-            { icon: <TrendingUp className="mx-auto text-blue-600" size={30} />, label: "Breadth Score", value: `${stats.breadthScore}%` },
+                    {[
+            // "Total Keywords" is a count, not a score, so it gets a fixed colour.
+            // The other two are percentages and are coloured from the numeric score
+            // (the displayed value is a "82%" string, which can't be compared to a number).
+            { icon: <Layers className="mx-auto text-indigo-600" size={30} />, label: "Total Keywords", value: stats.totalKeywords, color: "text-indigo-600" },
+            { icon: <Zap className="mx-auto text-amber-500" size={30} />, label: "Technical Depth", value: `${stats.technicalDepth}%`, color: getScoreColor(stats.technicalDepth) },
+            { icon: <TrendingUp className="mx-auto text-blue-600" size={30} />, label: "Breadth Score", value: `${stats.breadthScore}%`, color: getScoreColor(stats.breadthScore) },
           ].map((item, i) => (
             <div key={i} className="bg-white dark:bg-[#111827] rounded-3xl shadow p-6 text-center">
               {item.icon}
               <h3 className="mt-4 text-gray-500">{item.label}</h3>
-              <p className={`text-5xl font-black mt-3 ${getScoreColor(typeof item.value == int and item.value or (item.value))}`}>{item.value}</p>
+              <p className={`text-5xl font-black mt-3 ${item.color}`}>{item.value}</p>
             </div>
           ))}
         </div>
